@@ -21,7 +21,12 @@ This project uses the following npm packages:
 
 ## Why Node.js 14.x?
 
+## Node.js Runtime Version
+
 The `runtime` field in the `provider` section of the `serverless.yml` file specifies the Node.js runtime version for AWS Lambda functions. In this project, Node.js version 14.x (`nodejs14.x`) is specified because it is the only version that works with `chrome-aws-lambda`. Puppeteer relies on certain features and APIs that are available in Node.js 14.x but may not be available in older versions.
+
+It's important to note that while you may be able to deploy AWS Lambda functions with newer Node.js versions (such as 16, 18, or 20), Puppeteer may not be compatible with these versions due to dependencies on specific Node.js features or APIs.
+
 
 ## Usage
 
