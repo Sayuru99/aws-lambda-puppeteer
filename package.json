@@ -1,0 +1,19 @@
+{
+  "name": "aws-lambda-puppeteer",
+  "version": "1.0.0",
+  "description": "This repository contains a sample code template for creating AWS Lambda functions with Puppeteer, a headless browser automation tool.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sayuru99/aws-lambda-puppeteer.git"
+  },
+  "author": "Sayuru De Alwis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sayuru99/aws-lambda-puppeteer/issues"
+  },
+  "homepage": "https://github.com/Sayuru99/aws-lambda-puppeteer#readme"
+}
