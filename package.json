@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Sayuru99/aws-lambda-puppeteer/issues"
   },
-  "homepage": "https://github.com/Sayuru99/aws-lambda-puppeteer#readme"
+  "homepage": "https://github.com/Sayuru99/aws-lambda-puppeteer#readme",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer": "^22.0.0"
+  }
 }
