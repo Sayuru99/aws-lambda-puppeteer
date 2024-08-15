@@ -1,68 +1,118 @@
-# AWS Lambda Puppeteer
+# AWS Lambda with Puppeteer
 
-This repository contains a sample code template for creating AWS Lambda functions with Puppeteer, a headless browser automation tool. Puppeteer is used to control headless Chrome or Chromium instances, allowing you to perform tasks such as web scraping, generating screenshots, or automating web interactions.
+This project demonstrates how to run a Chromium browser inside an AWS Lambda function using Puppeteer. It includes examples for taking screenshots, generating PDFs, and extracting text from web pages.
 
-## Why Puppeteer?
+## Prerequisites
 
-[Puppeteer](https://github.com/puppeteer/puppeteer) provides a high-level API to control headless Chrome or Chromium instances. It allows you to interact with web pages programmatically, enabling various use cases such as:
+Before you begin, ensure you have the following installed:
 
-- Web scraping: Extracting data from websites.
-- Automated testing: Running tests in a headless browser environment.
-- Generating screenshots or PDFs of web pages.
-- Web automation: Automating repetitive tasks on websites.
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [AWS SAM CLI](https://aws.amazon.com/serverless/sam/)
+- [Node.js](https://nodejs.org/)
 
-## Dependencies
+## Project Structure
 
-This project uses the following npm packages:
+- `app.js`: Main Lambda function code.
+- `template.yaml`: AWS SAM template defining the Lambda function.
+- `package.json`: Node.js dependencies and scripts.
 
-- **axios**: A promise-based HTTP client for making HTTP requests. It is used to fetch data from external APIs.
-- **chrome-aws-lambda**: A package that provides a version of Chromium that can run on AWS Lambda. It is required for Puppeteer to work in a serverless environment.
-- **puppeteer**: The official Puppeteer package. It is used to control headless Chrome or Chromium instances.
+## Installation
 
-## Why Node.js 14.x?
+1. Clone the repository:
 
-## Node.js Runtime Version
+    ```bash
+    git clone https://github.com/Sayuru99/aws-lambda-puppeteer.git
+    cd aws-lambda-puppeteer
+    ```
 
-The `runtime` field in the `provider` section of the `serverless.yml` file specifies the Node.js runtime version for AWS Lambda functions. In this project, Node.js version 14.x (`nodejs14.x`) is specified because it is the only version that works with `chrome-aws-lambda`. Puppeteer relies on certain features and APIs that are available in Node.js 14.x but may not be available in older versions.
-
-It's important to note that while you may be able to deploy AWS Lambda functions with newer Node.js versions (such as 16, 18, or 20), Puppeteer may not be compatible with these versions due to dependencies on specific Node.js features or APIs.
-
-
-## Usage
-
-1. Clone or fork this repository.
-2. Install dependencies by running the following command in your terminal:
+2. Install the dependencies:
 
     ```bash
     npm install
     ```
 
-3. Customize the code in `index.js` to suit your specific use case.
-4. Run the function locally using the following command:
+## Build and Deploy with AWS SAM
 
-    ```bash
-    serverless invoke local -f fetchData
-    ```
+AWS SAM (Serverless Application Model) is a framework used for building and deploying serverless applications. To deploy this Lambda function using SAM, follow these steps:
 
-5. Deploy the AWS Lambda function using your preferred deployment method. For example, you can use the Serverless Framework by running:
+### Create an S3 Bucket
 
-    ```bash
-    serverless deploy
-    ```
+Before deploying your application, you need to create an S3 bucket to store the deployment artifacts. You can create a new S3 bucket using the AWS CLI:
 
-6. Test the deployed Lambda function to ensure it behaves as expected.  
+```bash
+aws s3 mb s3://your-s3-bucket-name
+```
 
+Replace `your-s3-bucket-name` with a unique name for your S3 bucket. Make sure to define this bucket name in the `template.yaml` file under the `Deploy` section.
 
-## Requirements
+### Validate the SAM Template
 
-- Node.js
-- AWS account with permissions to create and manage Lambda functions
-- Serverless Framework (optional, but recommended for streamlined deployment)
+Before building, you can validate your SAM template to ensure everything is correct:
 
-## Contributing
+```bash
+sam validate
+```
 
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, feel free to open an issue or submit a pull request.
+### Build the Project
+
+Build the Lambda function using SAM:
+
+```bash
+sam build
+```
+
+This command packages your application and prepares it for deployment.
+
+### Deploy the Lambda Function
+
+Deploy the function to AWS:
+
+```bash
+sam deploy --guided
+```
+
+This command will guide you through the deployment process, where you can specify:
+
+- Stack Name
+- AWS Region
+- S3 Bucket for deployment artifacts (use the bucket name you created earlier)
+- Whether to allow SAM to create IAM roles for your functions
+
+During this process, SAM will upload your deployment artifacts to the specified S3 bucket and create the necessary AWS resources defined in your `template.yaml`.
+
+### Example Usage
+
+Once deployed, the Lambda function can be triggered according to the schedule defined in the `template.yaml`. By default, it runs every 30 minutes. The function will perform the following actions:
+
+- Navigate to `https://github.com`
+- Take a screenshot of the page
+- (Optional) Generate a PDF of the page
+- (Optional) Extract text from the page
+- (Optional) Take a screenshot of a specific element
+
+### Viewing Logs
+
+To view the logs for your Lambda function, use the following command:
+
+```bash
+sam logs -n BrowserFunction --stack-name <your-stack-name> --tail
+```
+
+Replace `<your-stack-name>` with the name of your stack.
+
+## Cleaning Up
+
+To delete the deployed stack and all associated resources:
+
+```bash
+sam delete --stack-name <your-stack-name>
+```
+
+This command will remove the CloudFormation stack, including the Lambda function, IAM roles, and other resources.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Author
+### [Sayuru De Alwis](https://github.com/Sayuru99)

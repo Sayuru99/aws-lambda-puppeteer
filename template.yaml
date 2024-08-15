@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Simple SAM template for running a Chromium browser inside AWS Lambda
+
+Globals:
+  Function:
+    Timeout: 900
+
+Resources:
+  BrowserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: browser-function/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      MemorySize: 1024
+      Events:
+        BrowserFunctionScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(30 minutes)
+
+Outputs:
+  BrowserFunction:
+    Description: Lambda Function ARN for BrowserFunction
+    Value: !GetAtt BrowserFunction.Arn
