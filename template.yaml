@@ -8,7 +8,7 @@ Globals:
     Timeout: 900
 
 Resources:
-  BrowserFunction:
+  ArticleScrapingFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: browser-function/
@@ -17,13 +17,39 @@ Resources:
       Architectures:
         - x86_64
       MemorySize: 1024
+      Role:
+        Fn::GetAtt:
+          - ArticleScrapingFunctionRole
+          - Arn
       Events:
-        BrowserFunctionScheduledEvent:
+        ArticleScrapingFunctionScheduledEvent:
           Type: Schedule
           Properties:
-            Schedule: rate(30 minutes)
+            Schedule: rate(1 day)
+
+  ArticleScrapingFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: ArticleScrapingFunctionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                  - s3:*
+                  - sts:*
+                Resource: "*"
 
 Outputs:
-  BrowserFunction:
-    Description: Lambda Function ARN for BrowserFunction
-    Value: !GetAtt BrowserFunction.Arn
+  ArticleScrapingFunction:
+    Description: Lambda Function ARN for ArticleScrapingFunction
+    Value: !GetAtt ArticleScrapingFunction.Arn

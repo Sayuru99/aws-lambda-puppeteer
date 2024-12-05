@@ -1,12 +1,18 @@
 {
+  "name": "aws-lambda-puppeteer-scraper",
+  "version": "1.0.0",
   "scripts": {
     "start": "node browser-function/app.js"
   },
   "description": "Simple SAM template for running a Chromium browser inside AWS Lambda",
   "repository": "https://github.com/Sayuru99/aws-lambda-puppeteer.git",
   "author": "Sayuru De Alwis",
+  "type": "module",
   "dependencies": {
     "@sparticuz/chromium": "^123.0.1",
-    "puppeteer-core": "^22.6.5"
+    "aws-sdk": "^2.1692.0",
+    "dotenv": "^16.4.7",
+    "puppeteer-core": "^22.6.5",
+    "twitter-api-v2": "^1.18.2"
   }
 }
