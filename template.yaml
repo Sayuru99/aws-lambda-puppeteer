@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
   Simple SAM template for running a Chromium browser inside AWS Lambda
@@ -11,43 +11,19 @@ Resources:
   ArticleScrapingFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: Searchspaceai-twitter-bot
       CodeUri: browser-function/
       Handler: app.lambdaHandler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       MemorySize: 1024
-      Role:
-        Fn::GetAtt:
-          - ArticleScrapingFunctionRole
-          - Arn
+      Role: arn:aws:iam::637423343677:role/aws-ssai-twitter-dev-lambda
       Events:
         ArticleScrapingFunctionScheduledEvent:
           Type: Schedule
           Properties:
             Schedule: rate(1 day)
-
-  ArticleScrapingFunctionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: ArticleScrapingFunctionPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:*
-                  - s3:*
-                  - sts:*
-                Resource: "*"
 
 Outputs:
   ArticleScrapingFunction:

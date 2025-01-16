@@ -1,8 +1,9 @@
 version = 0.1
 [default.deploy.parameters]
-stack_name = "ssai-tweeter"
-s3_prefix = "ssai-tweeter"
+stack_name = "ssai-twitter"
+s3_prefix = "ssai-twitter"
 region = "ca-central-1"
 capabilities = "CAPABILITY_IAM"
+s3_bucket = "searchspaceai-twitter-dev"
 image_repositories = []
 disable_rollback = true
